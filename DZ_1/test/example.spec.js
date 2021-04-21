@@ -1,9 +1,12 @@
 const { assert, expect } = require("chai");
 const fizzBuzz = require("../index.js");
 
-describe('fizz buzz problem', function() {
+describe('FizzBuzz problem', function() {
     it('fizzBuzz should be a functioin', function() {
-        fizzBuzz()
+        fizzBuzz(1)
+    });
+    it("function should throw error if argumment is not a number", function(){
+        expect(() => fizzBuzz('nista')).to.throw(Error);
     });
     it('function should accept number as an argument', function() {
         fizzBuzz(1);

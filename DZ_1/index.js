@@ -1,4 +1,5 @@
 function fizzBuzz(n) {
+    if(isNaN(n)) throw Error();
     let result = '';
     if (!(n % 3)) result += 'Fizz';
     if (!(n % 5)) result += 'Buzz';
