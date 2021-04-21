@@ -27,6 +27,9 @@ describe('fizz buzz problem', function() {
     it('should return FizzSuzz if number is dividible by 3 & 7', function() {
         expect(fizzBuzz(21)).to.equal('FizzSuzz');
     });
+    it('should return FizzBuzzSuzz if number is dividible by 3 & 5 & 7', function() {
+        expect(fizzBuzz(105)).to.equal('FizzBuzzSuzz');
+    });
     it('should return empty string if number is not dividible by 3 or 5', function() {
         expect(fizzBuzz(4)).to.equal('');
     });
