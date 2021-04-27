@@ -13,7 +13,7 @@ function dayOfYear(year, month, day) {
     for (let i = 0; i < (month - 1); i++)
         days += monthDays[i]
 
-    if (isLeapYear(year))
+    if (isLeapYear(year) && month > 2)
         days += 1;
 
     return days;
