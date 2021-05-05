@@ -12,5 +12,8 @@
     "chai": "^4.3.4",
     "mocha": "^8.3.2",
     "sinon": "^10.0.0"
+  },
+  "dependencies": {
+    "chai-sorted": "^0.2.0"
   }
 }

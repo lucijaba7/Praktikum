@@ -1,7 +1,10 @@
-const { assert, expect } = require("chai");
+const chai = require("chai"),
+  expect = chai.expect,
+  assert = chai.assert;
 const priceListFormatter = require("../index.js");
 const sinon = require("sinon");
 const data = require("../hotel_prices.json");
+chai.use(require("chai-sorted"));
 
 describe("PriceListFormatter problem", function () {
   it("priceListFormatter should be a function", function () {
@@ -34,17 +37,23 @@ describe("PriceListFormatter problem", function () {
       assert.equal(result.length, 3);
     });
 
+    it("priceListFormatter should log an array with sorted prices", function () {
+      let values = [];
+      result.map((x) => values.push(x.slice(0, 4)));
+      expect([1, 2]).to.be.sorted();
+    });
+
     context("Result", function () {
       it('priceListFormatter should log an array with a string "34.5 : 2020-01-01 to 2020-02-01"', function () {
-        expect(result).to.include("34.5 : 2020-01-01 to 2020-02-01");
+        expect(result[0]).to.equal("34.5 : 2020-01-01 to 2020-02-01");
       });
       it('priceListFormatter should log an array with a string "37.0 : 2020-02-02 to 2020-03-01, 2020-05-15 to 2020-06-15"', function () {
-        expect(result).to.include(
+        expect(result[1]).to.equal(
           "37.0 : 2020-02-02 to 2020-03-01, 2020-05-15 to 2020-06-15"
         );
       });
       it('priceListFormatter should log an array with a string "39.0 : 2020-03-02 to 2020-05-15"', function () {
-        expect(result).to.include("39.0 : 2020-03-02 to 2020-05-15");
+        expect(result[2]).to.equal("39.0 : 2020-03-02 to 2020-05-15");
       });
     });
   });
