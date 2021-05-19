@@ -30,4 +30,9 @@ function generateTrigrams(words) {
 
 trigramGenerator("I wish");
 
-module.exports = { trigramGenerator, generateChunks };
+module.exports = {
+  trigramGenerator,
+  getWords,
+  generateChunks,
+  generateTrigrams,
+};

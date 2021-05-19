@@ -1,5 +1,10 @@
 const { assert, expect } = require("chai");
-const { trigramGenerator, generateChunks } = require("../trigramGenerator");
+const {
+  trigramGenerator,
+  getWords,
+  generateChunks,
+  generateTrigrams,
+} = require("../trigramGenerator");
 
 describe("trigramGenerator problem TDD", function () {
   context("trigramGenerator", function () {
@@ -59,6 +64,27 @@ describe("trigramGenerator problem TDD", function () {
         ])
       );
     });
+    it("trigramGenerator should return correct trigram for text with multiple whitespaces", function () {
+      expect(trigramGenerator("I wish     I  may    I  wish I")).to.eql(
+        new Map([
+          ["I wish", ["I", "I"]],
+          ["wish I", ["may"]],
+          ["I may", ["I"]],
+          ["may I", ["wish"]],
+        ])
+      );
+    });
+  });
+
+  context("getWords", function () {
+    it("getWords should be a function", function () {
+      expect(getWords).to.be.a("function");
+    });
+    it("getWords should return an array", function () {
+      expect(getWords("I wish I may")).to.be.an("array");
+    });
+    // it("getWords should return an array of strings without whitespace", function () {
+    // });
   });
 
   context("generateChunks", function () {
