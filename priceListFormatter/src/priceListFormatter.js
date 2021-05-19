@@ -2,11 +2,16 @@ function priceListFormatter(priceList) {
   if (!arguments.length || Array.isArray(arguments)) throw Error();
 
   // Group by prices
-  let groupedList = priceList.reduce((acc, value) => {
+  let groupedList = groupList(priceList);
+  let formattedList = outputFormatter(groupedList);
+
+  console.log(formattedList);
+}
+
+function groupList(list) {
+  return list.reduce((acc, value) => {
     // Group initialization
-    if (!acc[value.price]) {
-      acc[value.price] = [];
-    }
+    acc[value.price] = acc[value.price] || [];
 
     // Grouping
     acc[value.price].push({
@@ -16,7 +21,9 @@ function priceListFormatter(priceList) {
 
     return acc;
   }, {});
+}
 
+function outputFormatter(groupedList) {
   // formattedList initialization
   let formattedList = [];
 
@@ -31,8 +38,7 @@ function priceListFormatter(priceList) {
           groupedList[price].map((x) => x.from + " to " + x.to).join(", ")
       );
     });
-
-  console.log(formattedList);
+  return formattedList;
 }
 
 module.exports = priceListFormatter;

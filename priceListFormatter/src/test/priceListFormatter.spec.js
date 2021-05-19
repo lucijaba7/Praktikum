@@ -1,9 +1,9 @@
 const chai = require("chai"),
   expect = chai.expect,
   assert = chai.assert;
-const priceListFormatter = require("../index.js");
+const priceListFormatter = require("../priceListFormatter.js");
 const sinon = require("sinon");
-const data = require("../hotel_prices.json");
+const data = require("../../hotel_prices.json");
 chai.use(require("chai-sorted"));
 
 describe("PriceListFormatter problem", function () {

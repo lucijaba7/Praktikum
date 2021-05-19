@@ -1,10 +1,14 @@
 function trigramGenerator(text) {
   if (typeof text !== "string") throw new Error();
 
-  let words = text.split(" ");
+  let words = getWords(text);
   let chunks = generateChunks(words);
 
   return generateTrigrams(chunks);
+}
+
+function getWords(text) {
+  return text.replace(/\s+/g, " ").trim().split(" ");
 }
 
 function generateChunks(words) {
