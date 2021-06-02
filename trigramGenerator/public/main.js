@@ -21,7 +21,7 @@ const question2 = () => {
   return new Promise((resolve, reject) => {
     rl.question("How many words in a random text? ", (num) => {
       console.log("RANDOM TEXT OF THE DAY: ");
-      console.log(generateText(num));
+      console.log(generateText(parseInt(num)));
 
       resolve();
     });

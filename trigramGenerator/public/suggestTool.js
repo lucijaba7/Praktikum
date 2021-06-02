@@ -53,16 +53,19 @@ function getFirstWord() {
 function getFullSentence(firstWord, number) {
   let sentence = [firstWord];
   while (sentence.length != number) {
-    const value = searchableValue(sentence, sentence.length).join(" ");
-    const newWord = correctNgram(value).has(value)
-      ? correctNgram(value).get(value).random()
-      : [];
-
-    // if (!newWord) break;
+    const newWord = findWord(
+      searchableValue(sentence, sentence.length).join(" ")
+    );
     sentence.push(newWord);
   }
 
   return sentence;
+}
+
+function findWord(value) {
+  return correctNgram(value).has(value)
+    ? correctNgram(value).get(value).random()
+    : [];
 }
 
 function searchableValue(words, length) {
