@@ -2,11 +2,24 @@
   "name": "trigramgenerator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "mocha src/**/**.spec.js",
-    "watch": "mocha --watch src/**/**.spec.js"
+    "test": "mocha tests/**/**.spec.js",
+    "watch": "mocha --watch tests/**/**.spec.js",
+    "build": "webpack --config webpack.config.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "fs-web": "^1.0.1",
+    "process": "^0.11.10"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "requirejs": "^2.3.6",
+    "webpack": "^5.38.1"
+  }
 }
