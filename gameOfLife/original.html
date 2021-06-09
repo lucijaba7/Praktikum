@@ -1,0 +1,132 @@
+<script>
+  var x = 400;
+  var y = 400;
+  var g = ca(y);
+  for (var i = 0; i < 400; i++) {
+    g[i] = [];
+  }
+  var m = ca(y);
+
+  for (var j = 0; j < x; j++) {
+    //first loop
+    for (var k = 0; k < y; k++) {
+      //second loop
+      var r = Math.random(); //generates random number
+      var ra = r * 2;
+      var rb = Math.floor(ra);
+      if (rb === 1) {
+        g[j][k] = 1;
+      } else {
+        g[j][k] = 0;
+      }
+    }
+  }
+
+  //functions
+  function f() {
+    //this is first part of function
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, 400, 400);
+    for (var j = 1; j < x; j++) {
+      //first loop
+      for (var k = 1; k < y; k++) {
+        //second loop
+        if (g[j][k] === 1) {
+          ctx.fillStyle = "#FF0000";
+          ctx.fillRect(j, k, 1, 1);
+        }
+      }
+    }
+    //this is second part of the function
+    f_2();
+    requestAnimationFrame(f);
+  }
+
+  function ca(r_y) {
+    var arr = [];
+    for (var i = 0; i < r_y; i++) {
+      arr[i] = [];
+    }
+    return arr;
+  }
+
+  function f_2() {
+    //this is second part of the function
+    for (var j = 1; j < x - 1; j++) {
+      //first loop
+      for (var k = 1; k < y - 1; k++) {
+        //second loop
+        //apply the rules to each cell
+        if (g[j][k] === 0) {
+          switch (
+            g[j - 1][k - 1] +
+            g[j - 1][k] +
+            g[j - 1][k + 1] +
+            g[j][k - 1] +
+            g[j][k + 1] +
+            g[j + 1][k - 1] +
+            g[j + 1][k] +
+            g[j + 1][k + 1]
+          ) {
+            case 1:
+            case 2:
+              m[j][k] = 0; //sets the value to 0
+              break;
+            case 3:
+              m[j][k] = 1; //sets the value to 1
+              break;
+            case 4:
+              m[j][k] = 1;
+            case 5:
+              m[j][k] = !(m[j][k] | !m[j][k]);
+            default:
+              m[j][k] = 0; //sets the value to 0
+          }
+        } else if (g[j][k] === 1) {
+          switch (
+            g[j - 1][k - 1] +
+            g[j - 1][k] +
+            g[j - 1][k + 1] +
+            g[j][k - 1] +
+            g[j][k + 1] +
+            g[j + 1][k - 1] +
+            g[j + 1][k] +
+            g[j + 1][k + 1]
+          ) {
+            case 0:
+            case 1:
+              m[j][k] = m[j][k] | !m[j][k];
+              break;
+            case 2:
+              m[j][k] = m[j][k] | !m[j][k];
+            case 3:
+              m[j][k] = 1;
+              break;
+            case 4:
+            case 5:
+              m[j][k] = m[j][k] & !m[j][k];
+            case 6:
+            case 7:
+            case 8:
+              m[j][k] = 0;
+              break;
+            default:
+              m[j][k] = 0;
+          }
+        }
+      }
+    }
+
+    for (var j = 0; j < x; j++) {
+      for (var k = 0; k < y; k++) {
+        g[j][k] = m[j][k];
+      }
+    }
+  }
+</script>
+<html>
+  <body onload="f()">
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+  </body>
+</html>

@@ -37,12 +37,17 @@ Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
 };
 
+// Array.prototype.removeDot = function () {
+//   return this.filter((x) => x != ".");
+// };
+
 function generateText(number) {
   if (typeof number !== "number") throw new Error();
 
-  let fullSentence = getFullSentence(getFirstWord(), number);
-
-  return fullSentence.join(" ");
+  let fullSentence = getFullSentence(getFirstWord(), number).join(" ");
+  return (fullSentence.charAt(0).toUpperCase() + fullSentence.slice(1)).concat(
+    "."
+  );
 }
 
 function getFirstWord() {

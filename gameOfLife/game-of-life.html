@@ -1,0 +1,80 @@
+<script>
+  Array.prototype.initGrid = function () {
+    return this.map((column) => column.map((value) => randomBit()));
+  };
+
+  //GLOBAL VARIABLES
+  var width = 400;
+  var currentBoard = createEmptyGrid(width).initGrid();
+  var nextBoard = createEmptyGrid(width);
+
+  function gameOfLife() {
+    drawCurrentBoard();
+    getNextBoardState();
+    switchCurrentBoardState();
+    requestAnimationFrame(gameOfLife);
+  }
+
+  function drawCurrentBoard() {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, 400, 400);
+
+    currentBoard.forEach((column, i) =>
+      column.forEach((element, j) => {
+        if (element == 1) {
+          ctx.fillStyle = "#FF0000";
+          ctx.fillRect(i, j, 1, 1);
+        }
+      })
+    );
+  }
+
+  function getNextBoardState() {
+    for (var i = 1; i < width - 1; i++) {
+      for (var j = 1; j < width - 1; j++) {
+        var sum = sumOfSurroundingCells(i, j);
+        currentBoard[i][j] == 1
+          ? (nextBoard[i][j] = +(sum == 2 || sum == 3))
+          : (nextBoard[i][j] = +(sum == 3));
+      }
+    }
+  }
+
+  function switchCurrentBoardState() {
+    currentBoard = currentBoard.map((column, i) =>
+      column.map((element, j) => nextBoard[i][j])
+    );
+  }
+
+  // HELPER FUNCTIONS
+
+  function createEmptyGrid(width) {
+    var emptyGrid = new Array(width)
+      .fill([])
+      .map(() => new Array(width).fill([]));
+    return emptyGrid;
+  }
+
+  function randomBit() {
+    return Math.floor(Math.random() * 2);
+  }
+
+  function sumOfSurroundingCells(j, k) {
+    return (
+      currentBoard[j - 1][k - 1] +
+      currentBoard[j - 1][k] +
+      currentBoard[j - 1][k + 1] +
+      currentBoard[j][k - 1] +
+      currentBoard[j][k + 1] +
+      currentBoard[j + 1][k - 1] +
+      currentBoard[j + 1][k] +
+      currentBoard[j + 1][k + 1]
+    );
+  }
+</script>
+<html>
+  <body onload="gameOfLife()">
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+  </body>
+</html>
