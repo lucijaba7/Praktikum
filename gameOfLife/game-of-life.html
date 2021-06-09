@@ -31,14 +31,6 @@
   }
 
   function getNextBoardState() {
-    // for (var i = 1; i < width - 1; i++) {
-    //   for (var j = 1; j < width - 1; j++) {
-    //     var sum = sumOfSurroundingCells(i, j);
-    //     currentBoard[i][j] == 1
-    //       ? (nextBoard[i][j] = +(sum == 2 || sum == 3))
-    //       : (nextBoard[i][j] = +(sum == 3));
-    //   }
-    // }
     currentBoard.forEach((column, i) =>
       column.forEach((element, j) => {
         if (notEdgeCell(i, j)) {
