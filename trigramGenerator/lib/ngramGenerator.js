@@ -21,6 +21,7 @@ function textParser(text) {
 function interpunctionHandler(text) {
   return text
     .replace(/(?:(?:\.{3}|\?!|[,;:.!?])\B|[“”‘’"'`{}()[\]])/g, " $& ")
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, " $& ")
     .replace(/\s+/g, " ")
     .trim();
 }

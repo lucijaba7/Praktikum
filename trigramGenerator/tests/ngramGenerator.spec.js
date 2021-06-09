@@ -140,38 +140,6 @@ describe("#ngramGenerator()", function () {
 
     it("handles punctuation as a separate word", function () {
       expect(ngramGenerator("I am.", 3)).to.eql(new Map([["I am", ["."]]]));
-      expect(ngramGenerator("I a@email.com.", 3)).to.eql(
-        new Map([["I a@email.com", ["."]]])
-      );
-      expect(ngramGenerator("I am,", 3)).to.eql(new Map([["I am", [","]]]));
-      expect(ngramGenerator("I am;", 3)).to.eql(new Map([["I am", [";"]]]));
-      expect(ngramGenerator("I am:", 3)).to.eql(new Map([["I am", [":"]]]));
-      expect(ngramGenerator("I am!", 3)).to.eql(new Map([["I am", ["!"]]]));
-      expect(ngramGenerator("I am?", 3)).to.eql(new Map([["I am", ["?"]]]));
-      expect(ngramGenerator("I am?!", 3)).to.eql(new Map([["I am", ["?!"]]]));
-      expect(ngramGenerator("I am...", 3)).to.eql(new Map([["I am", ["..."]]]));
-      expect(ngramGenerator('“Says: "I am?"[w](ok){1}.”', 3)).to.eql(
-        new Map([
-          ["“ says", [":"]],
-          ["says :", ['"']],
-          [': "', ["I"]],
-          ['" I', ["am"]],
-          ["I am", ["?"]],
-          ["am ?", ['"']],
-          ["am ?", ['"']],
-          ['? "', ["["]],
-          ['" [', ["w"]],
-          ["[ w", ["]"]],
-          ["w ]", ["("]],
-          ["] (", ["ok"]],
-          ["( ok", [")"]],
-          ["ok )", ["{"]],
-          [") {", ["1"]],
-          ["{ 1", ["}"]],
-          ["1 }", ["."]],
-          ["} .", ["”"]],
-        ])
-      );
     });
   });
   describe("Helper functions", function () {
@@ -188,12 +156,15 @@ describe("#ngramGenerator()", function () {
       it("should return correct string", function () {
         expect(interpunctionHandler("I am.")).to.equal("I am .");
         expect(interpunctionHandler("I a@email.com.")).to.equal(
-          "I a@email.com ."
+          "I a@email . com ."
         );
-        expect(interpunctionHandler(",;:!??!...")).to.equal(", ; : ! ? ?! ...");
+        expect(interpunctionHandler(",;:!??!...")).to.equal(
+          ", ; : ! ? ? ! . . ."
+        );
         expect(interpunctionHandler("“”‘’\"'`{}()[]")).to.equal(
           "“ ” ‘ ’ \" ' ` { } ( ) [ ]"
         );
+        expect(interpunctionHandler(".I")).to.equal(". I");
       });
     });
 
@@ -252,8 +223,8 @@ describe("#getSuggestions()", function () {
   it("should return correct array", function () {
     expect(getSuggestions("a")).to.eql([
       "few",
-      "lot",
       "topic",
+      "lot",
       "very",
       "little",
     ]);
@@ -302,144 +273,4 @@ describe("#generateText", function () {
   it("should return a string", function () {
     expect(generateText(3)).to.be.a("string");
   });
-  // describe("Helper functions", function () {
-  //   context("#getFirstWord", function () {});
-  // });
 });
-
-// const { assert, expect } = require("chai");
-// const {
-//   ngramGenerator,
-//   getWords,
-//   generateChunks,
-//   generateTrigrams,
-// } = require("../ngramGenerator");
-
-// describe("ngramGenerator problem TDD", function () {
-//   context("ngramGenerator", function () {
-//     it("ngramGenerator should be a function", function () {
-//       expect(ngramGenerator).to.be.a("function");
-//     });
-
-//     it("ngramGenerator should throw error if argument is not string", function () {
-//       expect(() => ngramGenerator(1)).to.throw();
-//     });
-
-//     it("ngramGenerator should return correct trigram for less than 3 words", function () {
-//       expect(ngramGenerator("I wish")).to.eql(new Map());
-//     });
-
-//     it("ngramGenerator should return correct trigram for 3 words input", function () {
-//       expect(ngramGenerator("I wish I")).to.eql(new Map([["I wish", ["I"]]]));
-//     });
-
-//     it("ngramGenerator should return correct trigram for 4 words input", function () {
-//       expect(ngramGenerator("I wish I may")).to.eql(
-//         new Map([
-//           ["I wish", ["I"]],
-//           ["wish I", ["may"]],
-//         ])
-//       );
-//     });
-
-//     it("ngramGenerator should return correct trigram for 5 words input", function () {
-//       expect(ngramGenerator("I wish I may I")).to.eql(
-//         new Map([
-//           ["I wish", ["I"]],
-//           ["wish I", ["may"]],
-//           ["I may", ["I"]],
-//         ])
-//       );
-//     });
-
-//     it("ngramGenerator should return correct trigram for 6 words input", function () {
-//       expect(ngramGenerator("I wish I may I wish")).to.eql(
-//         new Map([
-//           ["I wish", ["I"]],
-//           ["wish I", ["may"]],
-//           ["I may", ["I"]],
-//           ["may I", ["wish"]],
-//         ])
-//       );
-//     });
-
-//     it("ngramGenerator should return correct trigram for 7 words input", function () {
-//       expect(ngramGenerator("I wish I may I wish I")).to.eql(
-//         new Map([
-//           ["I wish", ["I", "I"]],
-//           ["wish I", ["may"]],
-//           ["I may", ["I"]],
-//           ["may I", ["wish"]],
-//         ])
-//       );
-//     });
-//     it("ngramGenerator should return correct trigram for text with multiple whitespaces", function () {
-//       expect(ngramGenerator("I wish     I  may    I  wish I")).to.eql(
-//         new Map([
-//           ["I wish", ["I", "I"]],
-//           ["wish I", ["may"]],
-//           ["I may", ["I"]],
-//           ["may I", ["wish"]],
-//         ])
-//       );
-//     });
-//   });
-
-//   context("getWords", function () {
-//     it("getWords should be a function", function () {
-//       expect(getWords).to.be.a("function");
-//     });
-//     it("getWords should return an array", function () {
-//       expect(getWords("I wish I may")).to.be.an("array");
-//     });
-//     context("Should handle whitespace correctly", function () {
-//       it("should replace multiple whitespaces with single space", function () {
-//         expect(getWords(" I    wish ")).to.eql(["I", "wish"]);
-//       });
-
-//       it("should replace \t with single space", function () {
-//         expect(getWords("I\twish\t I")).to.eql(["I", "wish", "I"]);
-//       });
-
-//       it("should replace \n with single space", function () {
-//         expect(getWords("\nI\nwish")).to.eql(["I", "wish"]);
-//       });
-
-//       it("should replace \r with single space", function () {
-//         expect(getWords("I\r\rwish I\rmay")).to.eql(["I", "wish", "I", "may"]);
-//       });
-
-//       it("should replace \n\r with single space", function () {
-//         expect(getWords("\n\rI wish   I \n\r may I wish")).to.eql([
-//           "I",
-//           "wish",
-//           "I",
-//           "may",
-//           "I",
-//           "wish",
-//         ]);
-//       });
-//     });
-//   });
-
-//   context("generateChunks", function () {
-//     it("generateChunks should return correct array for less than 3 words input", function () {
-//       expect(generateChunks(["I", "wish"])).to.eql([]);
-//     });
-//     it("generateChunks should return correct array for 3 words input", function () {
-//       expect(generateChunks(["I", "wish", "I"])).to.eql([["I", "wish", "I"]]);
-//     });
-//     it("generateChunks should return correct array for 4 words input", function () {
-//       expect(generateChunks(["I", "wish", "I", "may"])).to.eql([
-//         ["I", "wish", "I"],
-//         ["wish", "I", "may"],
-//       ]);
-//     });
-//   });
-// });
-
-// it("handles dot(.) as a separate word", function () {
-//   expect(ngramGenerator("I am.")).to.eql(new Map([["I am", ["."]]]));
-// });
-
-// // Zadaća, implementirati funkcionalnost za točku i ostalu interpunkciju
